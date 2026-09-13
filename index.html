@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abida Johora — Health & Wellness Writer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --base: #F8F5F0;
+      --emerald: #1B5E3B;
+      --emerald-light: #2D7A52;
+      --coral: #E8613A;
+      --coral-dark: #C94E2A;
+      --text: #1A1A1A;
+      --text-muted: #5A5A5A;
+      --sage: #8FAF8A;
+      --sage-light: #C8DEC6;
+      --white: #FFFFFF;
+      --font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      background: var(--base);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ── LOADING SCREEN ── */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--emerald);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+
+    .loader-name {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: loaderFadeUp 0.7s ease 0.2s forwards;
+    }
+    .loader-tagline {
+      font-size: clamp(0.85rem, 1.5vw, 1rem);
+      font-weight: 400;
+      color: var(--sage-light);
+      letter-spacing: 0.08em;
+      opacity: 0;
+      animation: loaderFadeUp 0.7s ease 0.5s forwards;
+    }
+    .loader-bar-wrap {
+      width: 160px;
+      height: 2px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      opacity: 0;
+      animation: loaderFadeUp 0.5s ease 0.7s forwards;
+    }
+    .loader-bar {
+      height: 100%;
+      width: 0;
+      background: var(--coral);
+      border-radius: 2px;
+      animation: loadBar 1.4s ease 0.8s forwards;
+    }
+    @keyframes loaderFadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes loadBar {
+      to { width: 100%; }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(248,245,240,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27,94,59,0.08);
+      transition: box-shadow 0.3s ease;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
+
+    .nav-logo {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--emerald);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--coral); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 3px;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--coral);
+      transition: width 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--emerald); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--emerald);
+      color: var(--white) !important;
+      padding: 0.55rem 1.3rem;
+      border-radius: 100px;
+      font-weight: 600 !important;
+      transition: background 0.2s ease, transform 0.2s ease !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--emerald-light) !important; transform: translateY(-1px); color: var(--white) !important; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      padding: 70px clamp(1.5rem, 5vw, 4rem) 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-bg-circle-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(27,94,59,0.07) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation: floatSlow 8s ease-in-out infinite;
+    }
+    .hero-bg-circle-2 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(232,97,58,0.07) 0%, transparent 70%);
+      bottom: 80px; left: -60px;
+      animation: floatSlow 6s ease-in-out 2s infinite reverse;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .hero-left {
+      opacity: 0;
+      transform: translateY(40px);
+      animation: heroReveal 0.9s ease 2.4s forwards;
+    }
+    @keyframes heroReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--sage-light);
+      color: var(--emerald);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.8rem;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      background: var(--emerald);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    .hero-headline {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 1.4rem;
+    }
+    .hero-headline .line-emerald { color: var(--emerald); }
+    .hero-headline .line-coral { color: var(--coral); }
+
+    /* Typing cursor */
+    .typed-wrap {
+      display: inline-block;
+      min-width: 280px;
+    }
+    .typed-text { border-right: 3px solid var(--coral); padding-right: 4px; }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      font-weight: 400;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.4rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: var(--coral);
+      color: var(--white);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      font-family: var(--font);
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      background: var(--coral-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232,97,58,0.35);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--emerald);
+      padding: 0.85rem 2rem;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      font-family: var(--font);
+      border: 2px solid var(--emerald);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      background: var(--emerald);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.8rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(27,94,59,0.12);
+    }
+    .hero-stat-num {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--emerald);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Hero Right — Illustration */
+    .hero-right {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateX(40px);
+      animation: heroReveal 0.9s ease 2.6s forwards;
+    }
+
+    .hero-visual-card {
+      width: 100%;
+      max-width: 480px;
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-light) 60%, #3D9B64 100%);
+      border-radius: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(27,94,59,0.25);
+    }
+
+    .hero-card-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(232,97,58,0.15) 0%, transparent 50%);
+    }
+
+    /* SVG Illustration elements */
+    .hero-svg-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Floating pills/badges on card */
+    .hero-float-badge {
+      position: absolute;
+      background: var(--white);
+      border-radius: 50px;
+      padding: 0.6rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .hero-float-badge .badge-icon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .flt-1 {
+      top: 8%; left: -14%;
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+    .flt-2 {
+      bottom: 22%; left: -16%;
+      animation: floatBadge 5s ease-in-out 1s infinite reverse;
+    }
+    .flt-3 {
+      top: 30%; right: -14%;
+      animation: floatBadge 4.5s ease-in-out 0.5s infinite;
+    }
+
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Particles */
+    .particles-wrap {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-section {
+      background: var(--emerald);
+      padding: 1rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 3rem;
+      white-space: nowrap;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+    .marquee-section:hover .marquee-track { animation-play-state: paused; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--sage-light);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .marquee-dot {
+      width: 5px; height: 5px;
+      background: var(--coral);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── SECTIONS SHARED ── */
+    section { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem); }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--coral);
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ── ABOUT SNAPSHOT ── */
+    #about-snap {
+      background: var(--white);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, var(--sage-light) 0%, var(--sage) 100%);
+      border-radius: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-img-placeholder::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(27,94,59,0.3), transparent);
+    }
+    .about-img-icon {
+      font-size: 5rem;
+      opacity: 0.4;
+    }
+
+    .about-accent-box {
+      position: absolute;
+      bottom: -1.5rem;
+      right: -1.5rem;
+      background: var(--coral);
+      color: var(--white);
+      border-radius: 1rem;
+      padding: 1.2rem 1.5rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      box-shadow: 0 12px 32px rgba(232,97,58,0.3);
+    }
+    .about-accent-box strong {
+      font-size: 1.5rem;
+      display: block;
+      font-weight: 800;
+    }
+
+    .about-content {}
+
+    .about-content p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 1.4rem;
+      max-width: 520px;
+    }
+
+    .about-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1.8rem 0 2rem;
+    }
+    .pillar {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .pillar-icon {
+      width: 42px; height: 42px;
+      background: var(--sage-light);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .pillar-text strong {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .pillar-text span {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    /* ── SERVICES ── */
+    #services {
+      background: var(--base);
+    }
+    .services-header {
+      max-width: 1200px;
+      margin: 0 auto 3.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .services-header-left { max-width: 480px; }
+    .services-header p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .services-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 1.2rem;
+      padding: 2rem 2.2rem;
+      border: 1px solid rgba(27,94,59,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--coral);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(27,94,59,0.12);
+      border-color: rgba(27,94,59,0.15);
+    }
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-card-icon {
+      width: 52px; height: 52px;
+      background: var(--sage-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.4rem;
+      transition: background 0.3s ease;
+    }
+    .service-card:hover .service-card-icon { background: var(--emerald); }
+
+    .service-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.7rem;
+      letter-spacing: -0.01em;
+    }
+    .service-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .service-card-clients {
+      margin-top: 1.3rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(27,94,59,0.08);
+      font-size: 0.78rem;
+      color: var(--emerald);
+      font-weight: 600;
+    }
+
+    /* ── WHO I HELP ── */
+    #who-i-help {
+      background: var(--emerald);
+      color: var(--white);
+    }
+    .who-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .who-inner .section-label { color: var(--sage-light); }
+    .who-inner .section-title { color: var(--white); }
+    .who-inner .section-title span { color: var(--coral); }
+
+    .clients-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 3rem;
+    }
+    .client-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem;
+      padding: 1.6rem;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .client-card:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-4px);
+    }
+    .client-card-icon {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .client-card h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .client-card p {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+
+    /* ── SHOP COMING SOON ── */
+    #shop {
+      background: var(--white);
+    }
+    .shop-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .shop-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: var(--base);
+      border-radius: 1.2rem;
+      overflow: hidden;
+      border: 1px solid rgba(27,94,59,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(27,94,59,0.1);
+    }
+    .product-card-img {
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+    }
+    .product-card-img.green { background: linear-gradient(135deg, var(--sage-light), var(--sage)); }
+    .product-card-img.coral { background: linear-gradient(135deg, #fde8e0, #f5b9a0); }
+    .product-card-img.emerald { background: linear-gradient(135deg, #c8ecd8, var(--sage)); }
+
+    .coming-soon-badge {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: var(--text);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+      letter-spacing: 0.05em;
+    }
+
+    .product-card-body {
+      padding: 1.3rem 1.4rem 1.5rem;
+    }
+    .product-card-body h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .product-card-body p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .product-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .product-format {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--sage);
+      background: var(--sage-light);
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+    }
+
+    /* ── BLOG ── */
+    #blog {
+      background: var(--base);
+    }
+    .blog-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .blog-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .blog-card {
+      background: var(--white);
+      border-radius: 1.2rem;
+      overflow: hidden;
+      border: 1px solid rgba(27,94,59,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(27,94,59,0.1);
+    }
+    .blog-card-img {
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    .blog-card:first-child .blog-card-img { aspect-ratio: 16/10; font-size: 2.8rem; }
+    .blog-card-img.bg1 { background: linear-gradient(135deg, #d4edda, var(--sage-light)); }
+    .blog-card-img.bg2 { background: linear-gradient(135deg, #fde8e0, #fcd5c7); }
+    .blog-card-img.bg3 { background: linear-gradient(135deg, var(--sage-light), #c4dcf0); }
+
+    .blog-card-body { padding: 1.3rem 1.4rem 1.5rem; }
+    .blog-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--coral);
+      letter-spacing: 0.06em;
+      display: block;
+      margin-bottom: 0.6rem;
+    }
+    .blog-card-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 0.6rem;
+    }
+    .blog-card:first-child .blog-card-body h3 { font-size: 1.2rem; }
+    .blog-card-body p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+    .blog-card-meta {
+      margin-top: 1rem;
+      padding-top: 0.9rem;
+      border-top: 1px solid rgba(27,94,59,0.08);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ── CTA BAND ── */
+    #cta-band {
+      background: var(--coral);
+      padding: clamp(4rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #cta-band::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -20%;
+      width: 60%;
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    #cta-band::after {
+      content: '';
+      position: absolute;
+      bottom: -40%; right: -10%;
+      width: 40%;
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+    .cta-band-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    #cta-band h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    #cta-band p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.65;
+      margin-bottom: 2.2rem;
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--coral);
+      padding: 0.9rem 2.4rem;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.7);
+      padding: clamp(3rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem) 2rem;
+    }
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-brand {}
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+    }
+    .footer-logo span { color: var(--coral); }
+    .footer-brand p {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      max-width: 240px;
+      margin-bottom: 1.4rem;
+    }
+    .footer-socials {
+      display: flex;
+      gap: 0.8rem;
+    }
+    .footer-social-link {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+      color: rgba(255,255,255,0.7);
+    }
+    .footer-social-link:hover {
+      background: var(--coral);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .footer-col h5 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-col ul a {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-col ul a:hover { color: var(--white); }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+    }
+
+    /* ── COUNTER ── */
+    .count-up { display: inline-block; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      #hero { grid-template-columns: 1fr; padding-top: 100px; gap: 2.5rem; }
+      .hero-right { order: -1; }
+      .hero-visual-card { max-width: 340px; margin: 0 auto; aspect-ratio: 3/2; }
+      .flt-1, .flt-2, .flt-3 { display: none; }
+      .hero-stats { gap: 1.8rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-img-wrap { max-width: 320px; margin: 0 auto; }
+      .services-grid { grid-template-columns: 1fr; }
+      .clients-grid { grid-template-columns: 1fr 1fr; }
+      .products-grid { grid-template-columns: 1fr 1fr; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 70px; left: 0; right: 0;
+        background: rgba(248,245,240,0.98);
+        backdrop-filter: blur(16px);
+        padding: 2rem;
+        gap: 1.5rem;
+        border-bottom: 1px solid rgba(27,94,59,0.1);
+      }
+      .nav-links.open a { font-size: 1.1rem; }
+      .nav-hamburger { display: flex; }
+      .services-header { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .clients-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader">
+    <div class="loader-name">Abida Johora</div>
+    <div class="loader-tagline">Be Healthy & Productive</div>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">Abida<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about-snap">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#blog">Blog</a></li>
+      <li><a href="#contact" class="nav-cta">Work With Me</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <!-- Background blobs -->
+    <div class="hero-bg-circle hero-bg-circle-1"></div>
+    <div class="hero-bg-circle hero-bg-circle-2"></div>
+
+    <!-- Particles canvas -->
+    <canvas id="particleCanvas" class="particles-wrap" style="position:absolute;inset:0;pointer-events:none;z-index:0;"></canvas>
+
+    <div class="hero-left" style="position:relative;z-index:1;">
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Health & Wellness Writer · Clinical Nutrition Student
+      </div>
+
+      <h1 class="hero-headline">
+        Words That Heal.<br>
+        <span class="line-coral">Content That</span><br>
+        <span class="typed-wrap"><span class="typed-text" id="typedText"></span></span>
+      </h1>
+
+      <p class="hero-sub">
+        Science-backed content for health brands, coaches, and wellness platforms.
+        Helping women build sustainable health habits rooted in nutrition, fitness,
+        and faith-conscious living.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary">Explore Services</a>
+        <a href="#blog" class="btn-secondary">Read My Blog</a>
+      </div>
+
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num count-up" data-target="4">0</div>
+          <div class="hero-stat-label">Core Services</div>
+        </div>
+        <div>
+          <div class="hero-stat-num count-up" data-target="6">0</div>
+          <div class="hero-stat-label">Client Niches</div>
+        </div>
+        <div>
+          <div class="hero-stat-num" style="font-size:1.4rem;">BSc</div>
+          <div class="hero-stat-label">Clinical Nutrition</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">🌿</div>
+          <div class="hero-stat-label">Faith-Conscious</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right" style="position:relative;z-index:1;">
+      <div class="hero-visual-card">
+        <div class="hero-card-pattern"></div>
+        <div class="hero-svg-wrap">
+          <!-- Inline wellness illustration SVG -->
+          <svg width="260" height="300" viewBox="0 0 260 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Body silhouette / wellness figure -->
+            <ellipse cx="130" cy="60" rx="38" ry="38" fill="rgba(255,255,255,0.15)"/>
+            <circle cx="130" cy="55" r="24" fill="rgba(255,255,255,0.25)"/>
+            <!-- Face features -->
+            <circle cx="122" cy="50" r="3" fill="rgba(255,255,255,0.7)"/>
+            <circle cx="138" cy="50" r="3" fill="rgba(255,255,255,0.7)"/>
+            <path d="M122 62 Q130 68 138 62" stroke="rgba(255,255,255,0.7)" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <!-- Body -->
+            <path d="M100 100 Q90 140 95 200 L165 200 Q170 140 160 100 Q145 88 130 88 Q115 88 100 100Z" fill="rgba(255,255,255,0.12)"/>
+            <!-- Arms -->
+            <path d="M100 110 Q70 130 65 160" stroke="rgba(255,255,255,0.2)" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <path d="M160 110 Q190 130 195 160" stroke="rgba(255,255,255,0.2)" stroke-width="14" stroke-linecap="round" fill="none"/>
+            <!-- Leaf accent -->
+            <path d="M50 200 Q70 170 100 185 Q80 210 50 200Z" fill="rgba(143,175,138,0.6)"/>
+            <path d="M210 195 Q190 165 160 180 Q180 205 210 195Z" fill="rgba(143,175,138,0.6)"/>
+            <!-- Heart icon -->
+            <path d="M118 130 C118 126 122 122 126 126 C130 122 134 126 134 130 C134 136 126 142 126 142 C126 142 118 136 118 130Z" fill="rgba(232,97,58,0.8)"/>
+            <!-- Bottom leaf cluster -->
+            <path d="M90 240 Q110 210 130 220 Q150 210 170 240 Q150 255 130 250 Q110 255 90 240Z" fill="rgba(255,255,255,0.1)"/>
+            <!-- Glow dots -->
+            <circle cx="60" cy="120" r="4" fill="rgba(232,97,58,0.5)"/>
+            <circle cx="200" cy="110" r="3" fill="rgba(255,255,255,0.4)"/>
+            <circle cx="80" cy="260" r="5" fill="rgba(143,175,138,0.5)"/>
+            <circle cx="185" cy="255" r="3.5" fill="rgba(232,97,58,0.4)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Floating badges -->
+      <div class="hero-float-badge flt-1">
+        <div class="badge-icon" style="background:#d4edda;">🥗</div>
+        Nutrition Science
+      </div>
+      <div class="hero-float-badge flt-2">
+        <div class="badge-icon" style="background:#fde8e0;">💪</div>
+        Fitness Content
+      </div>
+      <div class="hero-float-badge flt-3">
+        <div class="badge-icon" style="background:#e8f4ea;">✍️</div>
+        SEO Writing
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track" id="marqueeTrack">
+      <!-- Will be doubled by JS for seamless loop -->
+    </div>
+  </div>
+
+  <!-- ABOUT SNAPSHOT -->
+  <section id="about-snap">
+    <div class="about-grid">
+      <div class="about-img-wrap reveal-left">
+        <div class="about-img-placeholder">
+          <div class="about-img-icon">🌿</div>
+        </div>
+        <div class="about-accent-box">
+          <strong>BSc</strong>
+          Clinical Nutrition<br>Univ. of Dhaka
+        </div>
+      </div>
+
+      <div class="about-content reveal-right">
+        <span class="section-label">About Abida</span>
+        <h2 class="section-title">Wellness Writing Rooted in Science & Faith</h2>
+        <p>
+          I'm a final-year Clinical Nutrition student and health content writer who believes
+          wellness should feel aligned with your faith, realistic for your lifestyle, and
+          rooted in evidence — not extremes.
+        </p>
+        <p>
+          I created this space for women who want better health without compromise:
+          no crash diets, no unrealistic expectations — just steady, informed progress.
+        </p>
+
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">🥦</div>
+            <div class="pillar-text">
+              <strong>Balanced Nutrition</strong>
+              <span>Structured, mindful eating that supports metabolism and hormone health.</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🏃‍♀️</div>
+            <div class="pillar-text">
+              <strong>Modest & Realistic Fitness</strong>
+              <span>Movement that fits your real life — home workouts or gym, your pace.</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">🌙</div>
+            <div class="pillar-text">
+              <strong>Faith-Conscious Living</strong>
+              <span>Health choices that align with Islamic values and halal considerations.</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="#" class="btn-primary">Read My Full Story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header reveal">
+      <div class="services-header-left">
+        <span class="section-label">What I Offer</span>
+        <h2 class="section-title">Content That Connects & Converts</h2>
+      </div>
+      <div>
+        <p>Science-backed writing for health brands,<br>coaches, and wellness platforms.</p>
+        <a href="#" style="display:inline-block;margin-top:1rem;" class="btn-secondary">View All Services</a>
+      </div>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal" style="transition-delay:0.1s">
+        <div class="service-card-icon">📝</div>
+        <h3>SEO Blog & Article Writing</h3>
+        <p>Research-driven, keyword-optimized articles that rank on Google and build your brand as a trusted health authority. Every piece is evidence-based and reader-focused.</p>
+        <div class="service-card-clients">For: Health startups · Nutrition platforms · Wellness educators</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.2s">
+        <div class="service-card-icon">💻</div>
+        <h3>Website Copywriting</h3>
+        <p>Clear, compelling copy for landing pages, home pages, and about pages that communicates your value instantly and turns visitors into clients.</p>
+        <div class="service-card-clients">For: Coaches · Women-focused brands · Digital creators</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.3s">
+        <div class="service-card-icon">📱</div>
+        <h3>Social Media & Infographic Copy</h3>
+        <p>Punchy, shareable captions and infographic scripts tailored for health & wellness audiences. Content that educates, engages, and grows your following.</p>
+        <div class="service-card-clients">For: Fitness coaches · Health startups · Online educators</div>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.4s">
+        <div class="service-card-icon">📚</div>
+        <h3>E-book & Long-Form Content</h3>
+        <p>Comprehensive guides, lead magnets, and digital products written with depth and authority. From PCOS nutrition guides to fitness program e-books — structured for real results.</p>
+        <div class="service-card-clients">For: Digital product creators · Course creators · Coaches</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO I HELP -->
+  <section id="who-i-help">
+    <div class="who-inner">
+      <span class="section-label">Who I Work With</span>
+      <h2 class="section-title">Built for <span>Health-Driven</span> Brands</h2>
+
+      <div class="clients-grid">
+        <div class="client-card reveal" style="transition-delay:0.1s">
+          <div class="client-card-icon">🚀</div>
+          <h4>Health & Wellness Startups</h4>
+          <p>Early-stage companies building apps, platforms, or products that need trustworthy educational content for their audience.</p>
+        </div>
+        <div class="client-card reveal" style="transition-delay:0.15s">
+          <div class="client-card-icon">🏋️‍♀️</div>
+          <h4>Fitness Coaches</h4>
+          <p>Online or in-person professionals who want clear, structured blog posts, e-books, or educational content for their programs.</p>
+        </div>
+        <div class="client-card reveal" style="transition-delay:0.2s">
+          <div class="client-card-icon">🥗</div>
+          <h4>Nutrition Platforms</h4>
+          <p>Apps and digital platforms publishing nutrition articles, guides, and educational resources for healthy living.</p>
+        </div>
+        <div class="client-card reveal" style="transition-delay:0.25s">
+          <div class="client-card-icon">💜</div>
+          <h4>Women-Focused Brands</h4>
+          <p>Brands whose products and content are designed for women's health, wellness, fitness, or lifestyle needs.</p>
+        </div>
+        <div class="client-card reveal" style="transition-delay:0.3s">
+          <div class="client-card-icon">🎓</div>
+          <h4>Online Wellness Educators</h4>
+          <p>Course creators and experts who teach health, nutrition, or fitness and need well-researched content for their programs.</p>
+        </div>
+        <div class="client-card reveal" style="transition-delay:0.35s">
+          <div class="client-card-icon">💡</div>
+          <h4>Digital Product Creators</h4>
+          <p>Coaches and creators who sell ebooks, guides, and templates and need professionally written long-form content.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section id="shop">
+    <div class="shop-inner">
+      <div class="shop-header reveal">
+        <div>
+          <span class="section-label">Digital Products</span>
+          <h2 class="section-title">Tools for Your Wellness Journey</h2>
+        </div>
+        <div style="text-align:right">
+          <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:0.8rem;">New products dropping soon.</p>
+          <span style="background:var(--text);color:var(--white);font-size:0.75rem;font-weight:700;padding:0.4rem 1rem;border-radius:100px;letter-spacing:0.05em;">COMING SOON</span>
+        </div>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card reveal" style="transition-delay:0.1s">
+          <div class="product-card-img green">
+            🥗
+            <span class="coming-soon-badge">Coming Soon</span>
+          </div>
+          <div class="product-card-body">
+            <h4>7-Day Balanced Meal Plan Template</h4>
+            <p>A structured, customizable weekly meal planner built around hormone health and sustainable eating habits.</p>
+            <div class="product-card-footer">
+              <span class="product-format">PDF · Notion</span>
+            </div>
+          </div>
+        </div>
+        <div class="product-card reveal" style="transition-delay:0.2s">
+          <div class="product-card-img coral">
+            📊
+            <span class="coming-soon-badge">Coming Soon</span>
+          </div>
+          <div class="product-card-body">
+            <h4>Fitness & Habit Tracker Bundle</h4>
+            <p>Track workouts, water intake, sleep, and daily habits in one clean, easy-to-use spreadsheet.</p>
+            <div class="product-card-footer">
+              <span class="product-format">Excel · PDF</span>
+            </div>
+          </div>
+        </div>
+        <div class="product-card reveal" style="transition-delay:0.3s">
+          <div class="product-card-img emerald">
+            📔
+            <span class="coming-soon-badge">Coming Soon</span>
+          </div>
+          <div class="product-card-body">
+            <h4>Wellness Journal — 90 Days</h4>
+            <p>A guided journaling system for mindful eating, gratitude, and consistent healthy habits over 90 days.</p>
+            <div class="product-card-footer">
+              <span class="product-format">PDF · Canva</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  <section id="blog">
+    <div class="blog-inner">
+      <div class="blog-header reveal">
+        <div>
+          <span class="section-label">From the Blog</span>
+          <h2 class="section-title">Practical Wellness, Plainly Written</h2>
+        </div>
+        <a href="#" class="btn-secondary">All Articles</a>
+      </div>
+
+      <div class="blog-grid">
+        <a href="#" class="blog-card reveal" style="transition-delay:0.1s">
+          <div class="blog-card-img bg1">🌿</div>
+          <div class="blog-card-body">
+            <span class="blog-tag">NUTRITION</span>
+            <h3>How to Build a Balanced Plate Without Counting Every Calorie</h3>
+            <p>Forget obsessive tracking. Here's a simple, science-backed framework for eating well consistently — no apps required.</p>
+            <div class="blog-card-meta">8 min read · Coming Soon</div>
+          </div>
+        </a>
+        <a href="#" class="blog-card reveal" style="transition-delay:0.2s">
+          <div class="blog-card-img bg2">💪</div>
+          <div class="blog-card-body">
+            <span class="blog-tag">FITNESS</span>
+            <h3>Modest Fitness: Working Out in a Way That Feels Right for You</h3>
+            <p>Movement shouldn't come with guilt. A guide to building a home workout routine that fits your values and schedule.</p>
+            <div class="blog-card-meta">6 min read · Coming Soon</div>
+          </div>
+        </a>
+        <a href="#" class="blog-card reveal" style="transition-delay:0.3s">
+          <div class="blog-card-img bg3">🌙</div>
+          <div class="blog-card-body">
+            <span class="blog-tag">PCOS & HORMONES</span>
+            <h3>5 Nutrition Habits That Support Hormone Balance Naturally</h3>
+            <p>What the research actually says about food, PCOS, and hormonal health — explained simply.</p>
+            <div class="blog-card-meta">7 min read · Coming Soon</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section id="cta-band">
+    <div class="cta-band-inner reveal">
+      <h2>Ready to Create Content That Actually Converts?</h2>
+      <p>
+        Whether you're a health startup, a fitness coach, or a wellness educator —
+        let's build content that speaks to your audience and drives real results.
+      </p>
+      <a href="#contact" class="btn-white">Work With Me</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Abida<span>.</span></div>
+        <p>Health & Wellness Freelance Writer. Science-backed content for brands that care about impact.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="footer-social-link" aria-label="Instagram">📸</a>
+          <a href="#" class="footer-social-link" aria-label="Email">✉</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>SERVICES</h5>
+        <ul>
+          <li><a href="#">SEO Blog Writing</a></li>
+          <li><a href="#">Website Copywriting</a></li>
+          <li><a href="#">Social Media Copy</a></li>
+          <li><a href="#">E-book Writing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>EXPLORE</h5>
+        <ul>
+          <li><a href="#about-snap">About</a></li>
+          <li><a href="#shop">Digital Products</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>CONTACT</h5>
+        <ul>
+          <li><a href="mailto:hello@abidajohora.com">hello@abidajohora.com</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Abida Johora. All rights reserved.</span>
+      <span style="color:rgba(255,255,255,0.4);">Be Healthy & Productive</span>
+    </div>
+  </footer>
+
+  <script>
+    // ── LOADER ──
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 2200);
+    });
+    document.body.style.overflow = 'hidden';
+
+    // ── NAV SCROLL ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ── HAMBURGER ──
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // ── TYPING EFFECT ──
+    const phrases = ['Converts.', 'Educates.', 'Inspires.', 'Performs.'];
+    let phraseIndex = 0, charIndex = 0, deleting = false;
+    const typedEl = document.getElementById('typedText');
+
+    function type() {
+      const current = phrases[phraseIndex];
+      if (!deleting) {
+        typedEl.textContent = current.slice(0, charIndex + 1);
+        charIndex++;
+        if (charIndex === current.length) {
+          deleting = true;
+          setTimeout(type, 1800);
+          return;
+        }
+      } else {
+        typedEl.textContent = current.slice(0, charIndex - 1);
+        charIndex--;
+        if (charIndex === 0) {
+          deleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+        }
+      }
+      setTimeout(type, deleting ? 60 : 100);
+    }
+    setTimeout(type, 3000);
+
+    // ── MARQUEE BUILD ──
+    const marqueeItems = [
+      'SEO Blog Writing', 'Website Copywriting', 'Social Media Copy',
+      'E-book Development', 'Nutrition Content', 'PCOS & Hormone Health',
+      'Fitness Writing', 'Halal-Conscious Wellness', 'Faith-Based Health',
+      'Women\'s Health Content', 'Health Startups', 'Wellness Education'
+    ];
+    const track = document.getElementById('marqueeTrack');
+    const buildMarquee = () => {
+      const html = marqueeItems.map(item =>
+        `<span class="marquee-item"><span class="marquee-dot"></span>${item}</span>`
+      ).join('');
+      track.innerHTML = html + html; // double for seamless
+    };
+    buildMarquee();
+
+    // ── PARTICLES ──
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      const hero = document.getElementById('hero');
+      canvas.width = hero.offsetWidth;
+      canvas.height = hero.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    const colors = ['rgba(27,94,59,0.3)', 'rgba(232,97,58,0.25)', 'rgba(143,175,138,0.4)', 'rgba(27,94,59,0.15)'];
+
+    function createParticle() {
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 5 + 2,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: Math.random() * 200 + 100,
+        age: 0
+      };
+    }
+
+    for (let i = 0; i < 28; i++) particles.push(createParticle());
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p, i) => {
+        p.x += p.dx;
+        p.y += p.dy;
+        p.age++;
+        const fade = p.age < 30 ? p.age / 30 : p.age > p.life - 30 ? (p.life - p.age) / 30 : 1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color.replace(')', `,${fade})`).replace('rgba(', 'rgba(');
+        ctx.fill();
+        if (p.age >= p.life) particles[i] = createParticle();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // ── SCROLL REVEAL ──
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── COUNT UP ──
+    const counters = document.querySelectorAll('.count-up');
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const target = parseInt(e.target.dataset.target);
+          let count = 0;
+          const step = target / 40;
+          const interval = setInterval(() => {
+            count += step;
+            e.target.textContent = Math.min(Math.ceil(count), target);
+            if (count >= target) clearInterval(interval);
+          }, 30);
+          countObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => countObserver.observe(c));
+  </script>
+</body>
+</html>
