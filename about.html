@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Abida Johora</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --base: #F8F5F0;
+      --emerald: #1B5E3B;
+      --emerald-light: #2D7A52;
+      --coral: #E8613A;
+      --coral-dark: #C94E2A;
+      --text: #1A1A1A;
+      --text-muted: #5A5A5A;
+      --sage: #8FAF8A;
+      --sage-light: #C8DEC6;
+      --white: #FFFFFF;
+      --font: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--base); color: var(--text); overflow-x: hidden; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--emerald);
+      z-index: 9999;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-name {
+      font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: var(--white);
+      letter-spacing: -0.02em; opacity: 0; transform: translateY(20px);
+      animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+    .loader-sub {
+      font-size: 0.9rem; color: var(--sage-light); font-weight: 400;
+      opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
+    }
+    .loader-bar-wrap {
+      width: 160px; height: 2px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden;
+      opacity: 0; animation: fadeUp 0.5s ease 0.7s forwards;
+    }
+    .loader-bar { height: 100%; width: 0; background: var(--coral); animation: loadBar 1.4s ease 0.8s forwards; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes loadBar { to { width: 100%; } }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 clamp(1.5rem, 5vw, 4rem); height: 70px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(248,245,240,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(27,94,59,0.08);
+      transition: box-shadow 0.3s ease;
+    }
+    nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.06); }
+    .nav-logo { font-size: 1.15rem; font-weight: 800; color: var(--emerald); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--coral); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500; color: var(--text); text-decoration: none;
+      position: relative; padding-bottom: 3px; transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--coral); transition: width 0.25s ease;
+    }
+    .nav-links a:hover { color: var(--emerald); }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--emerald); }
+    .nav-links a.active::after { width: 100%; background: var(--emerald); }
+    .nav-cta {
+      background: var(--emerald); color: var(--white) !important;
+      padding: 0.55rem 1.3rem; border-radius: 100px; font-weight: 600 !important;
+      transition: background 0.2s ease, transform 0.2s ease !important;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--emerald-light) !important; transform: translateY(-1px); }
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .nav-hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s ease; }
+
+    /* ── PAGE HERO ── */
+    #page-hero {
+      min-height: 60vh;
+      padding: 70px clamp(1.5rem, 5vw, 4rem) 0;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      align-items: center;
+      gap: 4rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--white);
+    }
+
+    .page-hero-blob {
+      position: absolute; border-radius: 50%; pointer-events: none;
+    }
+    .blob-1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(27,94,59,0.06) 0%, transparent 70%);
+      top: -80px; right: -80px;
+      animation: blobFloat 9s ease-in-out infinite;
+    }
+    .blob-2 {
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(232,97,58,0.06) 0%, transparent 70%);
+      bottom: 0; left: 5%;
+      animation: blobFloat 7s ease-in-out 2s infinite reverse;
+    }
+    @keyframes blobFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.04); }
+    }
+
+    .page-hero-left {
+      position: relative; z-index: 1;
+      opacity: 0; transform: translateY(30px);
+      animation: fadeUp 0.8s ease 2.3s forwards;
+    }
+
+    .page-hero-breadcrumb {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .page-hero-breadcrumb a { color: var(--emerald); text-decoration: none; }
+    .page-hero-breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb-sep { color: var(--sage); }
+
+    .page-hero-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--sage-light); color: var(--emerald);
+      font-size: 0.78rem; font-weight: 700; padding: 0.4rem 1rem;
+      border-radius: 100px; margin-bottom: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+
+    .page-hero-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.03em; color: var(--text);
+      margin-bottom: 1.3rem;
+    }
+    .page-hero-title em {
+      font-style: normal; color: var(--emerald);
+      position: relative; display: inline-block;
+    }
+    .page-hero-title em::after {
+      content: '';
+      position: absolute; left: 0; bottom: -4px;
+      width: 100%; height: 3px;
+      background: var(--coral);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: underlineReveal 0.6s ease 3s forwards;
+    }
+    @keyframes underlineReveal { to { transform: scaleX(1); } }
+
+    .page-hero-sub {
+      font-size: clamp(1rem, 1.4vw, 1.1rem);
+      color: var(--text-muted); line-height: 1.75;
+      max-width: 500px; margin-bottom: 2rem;
+    }
+
+    .page-hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+    }
+    .tag {
+      background: var(--base); border: 1px solid rgba(27,94,59,0.15);
+      color: var(--text); font-size: 0.8rem; font-weight: 500;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+    }
+
+    /* Hero right — photo card */
+    .page-hero-right {
+      position: relative; z-index: 1; display: flex; justify-content: center;
+      opacity: 0; transform: translateX(30px);
+      animation: fadeUp 0.8s ease 2.5s forwards;
+    }
+
+    .photo-card-wrap {
+      position: relative; width: 100%; max-width: 380px;
+    }
+    .photo-card {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, var(--sage-light) 0%, var(--sage) 50%, #6A9E64 100%);
+      border-radius: 1.8rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+      position: relative; overflow: hidden;
+      box-shadow: 0 30px 60px rgba(27,94,59,0.18);
+    }
+    .photo-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(27,94,59,0.25) 100%);
+    }
+    .photo-card-text {
+      position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+      color: var(--white);
+      font-size: 0.85rem; font-weight: 600;
+      opacity: 0.9;
+    }
+
+    .hero-stat-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 1rem 1.3rem;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    }
+    .stat-card-1 {
+      top: 12%; left: -20%;
+      animation: floatCard 5s ease-in-out infinite;
+    }
+    .stat-card-2 {
+      bottom: 20%; right: -18%;
+      animation: floatCard 4.5s ease-in-out 1.2s infinite reverse;
+    }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+    .stat-card-num { font-size: 1.4rem; font-weight: 800; color: var(--emerald); letter-spacing: -0.02em; }
+    .stat-card-label { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); margin-top: 2px; }
+    .stat-card-icon { font-size: 1.1rem; margin-bottom: 4px; }
+
+    /* ── SHARED ── */
+    section { padding: clamp(4rem, 7vw, 6rem) clamp(1.5rem, 5vw, 4rem); }
+    .section-label { font-size: 0.78rem; font-weight: 600; color: var(--coral); letter-spacing: 0.1em; margin-bottom: 1rem; display: block; }
+    .section-title { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.025em; color: var(--text); margin-bottom: 1.2rem; }
+    .inner { max-width: 1200px; margin: 0 auto; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left { opacity: 0; transform: translateX(-28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right { opacity: 0; transform: translateX(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ── MY STORY ── */
+    #my-story { background: var(--base); }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 6vw, 6rem); align-items: start;
+    }
+    .story-content p {
+      font-size: 1.05rem; line-height: 1.8;
+      color: var(--text-muted); margin-bottom: 1.4rem;
+    }
+    .story-content p strong { color: var(--text); font-weight: 700; }
+
+    .pull-quote {
+      margin: 2rem 0;
+      padding: 1.5rem 1.8rem;
+      border-left: 4px solid var(--coral);
+      background: var(--white);
+      border-radius: 0 1rem 1rem 0;
+    }
+    .pull-quote p {
+      font-size: 1.1rem !important;
+      font-weight: 600 !important;
+      color: var(--text) !important;
+      font-style: italic;
+      margin-bottom: 0 !important;
+      line-height: 1.6 !important;
+    }
+
+    .story-visual {
+      position: sticky; top: 100px;
+    }
+    .story-img-card {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: linear-gradient(140deg, var(--emerald) 0%, var(--emerald-light) 70%, #3D9B64 100%);
+      border-radius: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 4rem;
+      position: relative; overflow: hidden;
+      box-shadow: 0 24px 56px rgba(27,94,59,0.2);
+      margin-bottom: 1.2rem;
+    }
+    .story-img-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 50%;
+      background: linear-gradient(to top, rgba(27,94,59,0.4), transparent);
+    }
+
+    .story-mini-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+    .mini-stat {
+      background: var(--white);
+      border-radius: 1rem; padding: 1.2rem;
+      border: 1px solid rgba(27,94,59,0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .mini-stat:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(27,94,59,0.1); }
+    .mini-stat-num { font-size: 1.6rem; font-weight: 800; color: var(--emerald); letter-spacing: -0.02em; }
+    .mini-stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
+
+    /* ── MISSION ── */
+    #mission { background: var(--white); }
+    .mission-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .mission-inner .section-title { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+    .mission-inner > p {
+      font-size: 1.1rem; line-height: 1.8; color: var(--text-muted);
+      max-width: 680px; margin: 0 auto 3rem;
+    }
+
+    .mission-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
+      text-align: left; margin-top: 1rem;
+    }
+    .mission-card {
+      padding: 1.8rem;
+      border-radius: 1.2rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .mission-card:hover { transform: translateY(-5px); }
+    .mission-card-1 { background: linear-gradient(140deg, var(--sage-light), #d8ecd6); }
+    .mission-card-2 { background: linear-gradient(140deg, #fde8e0, #fcd5c7); }
+    .mission-card-3 { background: linear-gradient(140deg, #e8f0fd, #d0dff9); }
+    .mission-card-num {
+      font-size: 3rem; font-weight: 800; opacity: 0.12;
+      position: absolute; top: 1rem; right: 1.2rem;
+      line-height: 1; color: var(--text);
+    }
+    .mission-card-icon { font-size: 1.6rem; margin-bottom: 1rem; }
+    .mission-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+    .mission-card p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── BACKGROUND / CREDENTIALS ── */
+    #credentials { background: var(--base); }
+    .credentials-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 5vw, 5rem); align-items: start;
+    }
+    .credentials-left .section-title { max-width: 440px; }
+    .credentials-left > p {
+      font-size: 1rem; line-height: 1.75; color: var(--text-muted); margin-bottom: 2rem;
+    }
+
+    .timeline {
+      display: flex; flex-direction: column; gap: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute; left: 18px; top: 10px; bottom: 10px;
+      width: 2px; background: rgba(27,94,59,0.15);
+    }
+    .timeline-item {
+      display: flex; gap: 1.2rem; align-items: flex-start;
+      padding-bottom: 2rem; position: relative;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--white); border: 2px solid var(--sage);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0; z-index: 1;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .timeline-item:hover .timeline-dot {
+      border-color: var(--emerald); background: var(--sage-light);
+    }
+    .timeline-content {}
+    .timeline-date {
+      font-size: 0.72rem; font-weight: 700; color: var(--coral);
+      letter-spacing: 0.06em; margin-bottom: 0.3rem; display: block;
+    }
+    .timeline-content h4 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+    .timeline-content p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Right — Focus areas */
+    .focus-areas { display: flex; flex-direction: column; gap: 1rem; }
+    .focus-area {
+      background: var(--white);
+      border-radius: 1rem; padding: 1.3rem 1.5rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      border: 1px solid rgba(27,94,59,0.07);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .focus-area:hover {
+      transform: translateX(5px);
+      box-shadow: 0 8px 24px rgba(27,94,59,0.08);
+      border-color: rgba(27,94,59,0.15);
+    }
+    .focus-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--sage-light); display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+      transition: background 0.25s ease;
+    }
+    .focus-area:hover .focus-icon { background: var(--emerald); }
+    .focus-text strong { font-size: 0.9rem; font-weight: 700; color: var(--text); display: block; margin-bottom: 3px; }
+    .focus-text span { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* ── WHO I WRITE FOR ── */
+    #who-i-write-for { background: var(--emerald); }
+    .who-inner .section-title { color: var(--white); }
+    .who-inner .section-title span { color: var(--coral); }
+    .who-inner .section-label { color: var(--sage-light); }
+    .who-inner > p { font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.7; max-width: 560px; margin-bottom: 3rem; }
+
+    .audience-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+    }
+    .audience-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 1rem; padding: 1.6rem;
+      transition: background 0.25s ease, transform 0.25s ease;
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .audience-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); }
+    .audience-icon {
+      font-size: 1.5rem; width: 44px; height: 44px;
+      background: rgba(255,255,255,0.1); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .audience-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+    .audience-card p { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.55; }
+
+    /* ── VALUES ── */
+    #values { background: var(--white); }
+    .values-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .value-card {
+      padding: 2rem; border-radius: 1.2rem;
+      background: var(--base);
+      border: 1px solid rgba(27,94,59,0.08);
+      position: relative; overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .value-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(27,94,59,0.1); }
+    .value-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--coral);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.35s ease;
+    }
+    .value-card:hover::after { transform: scaleX(1); }
+    .value-icon { font-size: 1.8rem; margin-bottom: 1.2rem; }
+    .value-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; }
+    .value-card p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── SOCIAL PROOF PLACEHOLDER ── */
+    #testimonials { background: var(--base); }
+    .testimonials-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+    .coming-soon-block {
+      background: var(--white); border: 2px dashed rgba(27,94,59,0.2);
+      border-radius: 1.5rem; padding: 3rem 2rem;
+      margin-top: 2.5rem;
+    }
+    .coming-soon-block .cs-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .coming-soon-block h3 { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; }
+    .coming-soon-block p { font-size: 0.9rem; color: var(--text-muted); max-width: 420px; margin: 0 auto; line-height: 1.65; }
+    .cs-badge {
+      display: inline-block; background: var(--sage-light); color: var(--emerald);
+      font-size: 0.75rem; font-weight: 700; padding: 0.35rem 1rem;
+      border-radius: 100px; letter-spacing: 0.05em; margin-bottom: 1rem;
+    }
+
+    /* ── CTA BAND ── */
+    #cta-band {
+      background: var(--coral);
+      padding: clamp(4rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    #cta-band::before {
+      content: ''; position: absolute; top: -50%; left: -20%;
+      width: 60%; aspect-ratio: 1;
+      background: rgba(255,255,255,0.06); border-radius: 50%;
+    }
+    #cta-band::after {
+      content: ''; position: absolute; bottom: -40%; right: -10%;
+      width: 40%; aspect-ratio: 1;
+      background: rgba(255,255,255,0.05); border-radius: 50%;
+    }
+    .cta-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    #cta-band h2 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 800;
+      color: var(--white); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem;
+    }
+    #cta-band p { font-size: 1.05rem; color: rgba(255,255,255,0.85); line-height: 1.65; margin-bottom: 2.2rem; }
+    .btn-white {
+      background: var(--white); color: var(--coral);
+      padding: 0.9rem 2.4rem; border-radius: 100px;
+      font-weight: 700; font-size: 1rem; text-decoration: none;
+      display: inline-block; font-family: var(--font);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.15); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--text); color: rgba(255,255,255,0.7);
+      padding: clamp(3rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem) 2rem;
+    }
+    .footer-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-logo { font-size: 1.1rem; font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+    .footer-logo span { color: var(--coral); }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.65; max-width: 240px; margin-bottom: 1.4rem; }
+    .footer-socials { display: flex; gap: 0.8rem; }
+    .footer-social-link {
+      width: 36px; height: 36px; background: rgba(255,255,255,0.08); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; text-decoration: none; color: rgba(255,255,255,0.7);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .footer-social-link:hover { background: var(--coral); color: var(--white); transform: translateY(-2px); }
+    .footer-col h5 { font-size: 0.82rem; font-weight: 700; color: var(--white); letter-spacing: 0.06em; margin-bottom: 1.2rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-col ul a { font-size: 0.85rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto; padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem; font-size: 0.8rem;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      background: var(--coral); color: var(--white);
+      padding: 0.85rem 2rem; border-radius: 100px;
+      font-weight: 700; font-size: 0.95rem; text-decoration: none;
+      font-family: var(--font); border: none; cursor: pointer;
+      display: inline-block;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn-primary:hover { background: var(--coral-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,97,58,0.35); }
+    .btn-secondary {
+      background: transparent; color: var(--emerald);
+      padding: 0.85rem 2rem; border-radius: 100px;
+      font-weight: 600; font-size: 0.95rem; text-decoration: none;
+      font-family: var(--font); border: 2px solid var(--emerald);
+      display: inline-block;
+      transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    }
+    .btn-secondary:hover { background: var(--emerald); color: var(--white); transform: translateY(-2px); }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      #page-hero { grid-template-columns: 1fr; padding-top: 100px; gap: 2.5rem; }
+      .page-hero-right { order: -1; }
+      .photo-card-wrap { max-width: 280px; margin: 0 auto; }
+      .stat-card-1, .stat-card-2 { display: none; }
+      .story-grid { grid-template-columns: 1fr; }
+      .story-visual { position: static; }
+      .credentials-grid { grid-template-columns: 1fr; }
+      .mission-cards { grid-template-columns: 1fr; }
+      .audience-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: fixed; top: 70px; left: 0; right: 0;
+        background: rgba(248,245,240,0.98); backdrop-filter: blur(16px);
+        padding: 2rem; gap: 1.5rem;
+        border-bottom: 1px solid rgba(27,94,59,0.1);
+      }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 600px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .story-mini-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-name">Abida Johora</div>
+    <div class="loader-sub">About Me</div>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">Abida<span>.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html" class="nav-cta">Work With Me</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section id="page-hero">
+    <div class="page-hero-blob blob-1"></div>
+    <div class="page-hero-blob blob-2"></div>
+
+    <div class="page-hero-left">
+      <div class="page-hero-breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep">/</span>
+        <span>About</span>
+      </div>
+      <div class="page-hero-label">✦ The Person Behind the Words</div>
+      <h1 class="page-hero-title">
+        Science, Faith &<br><em>Sustainable Wellness</em>
+      </h1>
+      <p class="page-hero-sub">
+        I'm Abida — a Clinical Nutrition student and health content writer who believes
+        great wellness content should be evidence-based, culturally aware, and actually
+        liveable. No extremes. No guilt. Just real, informed progress.
+      </p>
+      <div class="page-hero-tags">
+        <span class="tag">📚 Clinical Nutrition</span>
+        <span class="tag">🌙 Faith-Conscious Wellness</span>
+        <span class="tag">🔬 Evidence-Based</span>
+        <span class="tag">💻 Health Writer</span>
+      </div>
+    </div>
+
+    <div class="page-hero-right">
+      <div class="photo-card-wrap">
+        <div class="photo-card">
+          🌿
+          <div class="photo-card-text">Your photo here</div>
+        </div>
+
+        <div class="hero-stat-card stat-card-1">
+          <div class="stat-card-icon">🎓</div>
+          <div class="stat-card-num">BSc</div>
+          <div class="stat-card-label">Clinical Nutrition</div>
+        </div>
+        <div class="hero-stat-card stat-card-2">
+          <div class="stat-card-icon">✍️</div>
+          <div class="stat-card-num">4+</div>
+          <div class="stat-card-label">Services Offered</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY STORY -->
+  <section id="my-story">
+    <div class="inner story-grid">
+      <div class="story-content">
+        <span class="section-label reveal">My Story</span>
+        <h2 class="section-title reveal">Why I Do This Work</h2>
+
+        <div class="reveal" style="transition-delay:0.1s">
+          <p>
+            I created this space for women — both Muslim and non-Muslim — who want better
+            health without compromising their values. So many women feel stuck between
+            <strong>extreme diet culture</strong> and genuine confusion about what healthy
+            actually looks like.
+          </p>
+          <p>
+            Add PCOS, hormonal imbalance, or an inconsistent routine — and it becomes
+            completely overwhelming. I've seen it firsthand, in classrooms, in conversations,
+            and in the kind of questions women search for at 2am.
+          </p>
+        </div>
+
+        <div class="pull-quote reveal" style="transition-delay:0.15s">
+          <p>"Wellness should feel aligned with your faith, realistic for your lifestyle,
+          and rooted in science — not fear."</p>
+        </div>
+
+        <div class="reveal" style="transition-delay:0.2s">
+          <p>
+            That's why I focus on <strong>practical nutrition</strong>, sustainable weight
+            management, and balanced fitness guidance designed specifically with Muslim women
+            in mind — though the science behind it applies to every woman who's tired of
+            the noise.
+          </p>
+          <p>
+            No crash diets. No unrealistic expectations. Just steady, informed progress
+            that actually fits your life.
+          </p>
+        </div>
+
+        <div class="reveal" style="transition-delay:0.25s; margin-top:2rem;">
+          <a href="contact.html" class="btn-primary" style="margin-right:1rem;">Work With Me</a>
+          <a href="services.html" class="btn-secondary">See Services</a>
+        </div>
+      </div>
+
+      <div class="story-visual reveal-right" style="transition-delay:0.1s">
+        <div class="story-img-card">🌱</div>
+        <div class="story-mini-stats">
+          <div class="mini-stat">
+            <div class="mini-stat-num">4th</div>
+            <div class="mini-stat-label">Year — Final Year Student</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-num">3.57</div>
+            <div class="mini-stat-label">CGPA — Academic Excellence</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-num">4+</div>
+            <div class="mini-stat-label">Writing Services Offered</div>
+          </div>
+          <div class="mini-stat">
+            <div class="mini-stat-num">6</div>
+            <div class="mini-stat-label">Client Niches Served</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission">
+    <div class="inner mission-inner">
+      <span class="section-label reveal">My Approach</span>
+      <h2 class="section-title reveal">Three Principles I Build Every<br>Piece of Content Around</h2>
+      <p class="reveal" style="transition-delay:0.1s">
+        Whether I'm writing a 2,000-word article or a social media caption, these are
+        the non-negotiables that shape everything I create.
+      </p>
+
+      <div class="mission-cards">
+        <div class="mission-card mission-card-1 reveal" style="transition-delay:0.1s">
+          <div class="mission-card-num">01</div>
+          <div class="mission-card-icon">🥦</div>
+          <h3>Balanced Nutrition</h3>
+          <p>No extreme restrictions. No fear-based dieting. Structured, mindful eating that supports metabolism and hormone health for the long term.</p>
+        </div>
+        <div class="mission-card mission-card-2 reveal" style="transition-delay:0.2s">
+          <div class="mission-card-num">02</div>
+          <div class="mission-card-icon">🏃‍♀️</div>
+          <h3>Modest & Realistic Fitness</h3>
+          <p>Movement that fits your real life — whether that's home workouts, structured gym sessions, or simply building more daily activity.</p>
+        </div>
+        <div class="mission-card mission-card-3 reveal" style="transition-delay:0.3s">
+          <div class="mission-card-num">03</div>
+          <div class="mission-card-icon">🌙</div>
+          <h3>Faith-Conscious Living</h3>
+          <p>Health choices that align with Islamic values and halal considerations, without guilt, pressure, or compromise on who you are.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CREDENTIALS -->
+  <section id="credentials">
+    <div class="inner credentials-grid">
+      <div class="credentials-left">
+        <span class="section-label reveal">Education & Background</span>
+        <h2 class="section-title reveal">The Academic Foundation<br>Behind the Writing</h2>
+        <p class="reveal" style="transition-delay:0.1s">
+          My writing isn't based on trends or opinions — it's rooted in clinical training,
+          evidence-based research, and a deep understanding of how the body actually works.
+        </p>
+
+        <div class="timeline">
+          <div class="timeline-item reveal" style="transition-delay:0.1s">
+            <div class="timeline-dot">🎓</div>
+            <div class="timeline-content">
+              <span class="timeline-date">2021 — PRESENT</span>
+              <h4>BSc in Clinical Nutrition</h4>
+              <p>Govt. College of Applied Human Science, University of Dhaka (Biology Faculty, Home Economics Unit). Strong foundation in Medical Nutrition Therapy (MNT), evidence-based patient care, and holistic wellness. Current CGPA: 3.57.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" style="transition-delay:0.2s">
+            <div class="timeline-dot">🔬</div>
+            <div class="timeline-content">
+              <span class="timeline-date">UPCOMING</span>
+              <h4>MSc — Hormonal Health & Metabolic Disorders</h4>
+              <p>Planning to pursue an MSc with focused specialization in hormonal health, PCOS, and metabolic disorders — developing deep expertise in weight management, insulin resistance, and patient-centered nutrition strategies.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" style="transition-delay:0.3s">
+            <div class="timeline-dot">✍️</div>
+            <div class="timeline-content">
+              <span class="timeline-date">ONGOING</span>
+              <h4>Health & Wellness Content Writer</h4>
+              <p>Working alongside academic training to help brands and platforms communicate evidence-based health information in a clear, responsible, and accessible way.</p>
+            </div>
+          </div>
+          <div class="timeline-item reveal" style="transition-delay:0.4s">
+            <div class="timeline-dot">📝</div>
+            <div class="timeline-content">
+              <span class="timeline-date">2025</span>
+              <h4>Dissertation Research</h4>
+              <p>Team research: "Ultra-Processed Food Consumption and Predictive Risks of T2DM and CVD — Comparative Cross-Sectional Study between Urban and Rural Areas of Bangladesh."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-right" style="transition-delay:0.2s">
+        <span class="section-label" style="display:block;margin-bottom:1rem;">Writing Focus Areas</span>
+        <div class="focus-areas">
+          <div class="focus-area">
+            <div class="focus-icon">🔬</div>
+            <div class="focus-text">
+              <strong>Science-Backed Wellness Education</strong>
+              <span>Translating complex clinical nutrition research into content real people can act on.</span>
+            </div>
+          </div>
+          <div class="focus-area">
+            <div class="focus-icon">🏋️‍♀️</div>
+            <div class="focus-text">
+              <strong>Realistic Fitness for Modest Lifestyles</strong>
+              <span>Workout content designed for women who want results without compromising their values.</span>
+            </div>
+          </div>
+          <div class="focus-area">
+            <div class="focus-icon">🥗</div>
+            <div class="focus-text">
+              <strong>Halal-Conscious Nutrition</strong>
+              <span>Meal planning and nutrition guidance that respects Islamic dietary principles.</span>
+            </div>
+          </div>
+          <div class="focus-area">
+            <div class="focus-icon">💜</div>
+            <div class="focus-text">
+              <strong>PCOS & Hormone Health</strong>
+              <span>In-depth content on hormonal imbalances, insulin resistance, and sustainable fat loss.</span>
+            </div>
+          </div>
+          <div class="focus-area">
+            <div class="focus-icon">⚖️</div>
+            <div class="focus-text">
+              <strong>Sustainable Weight Management</strong>
+              <span>Evidence-based strategies for fat loss and metabolic health — no crash diets, ever.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO I WRITE FOR -->
+  <section id="who-i-write-for">
+    <div class="inner who-inner">
+      <span class="section-label reveal">Who I Write For</span>
+      <h2 class="section-title reveal">Two Audiences. <span>One Mission.</span></h2>
+      <p class="reveal" style="transition-delay:0.1s">
+        My work lives at the intersection of two groups — women seeking better health,
+        and the brands that want to serve them well.
+      </p>
+
+      <div class="audience-grid">
+        <div class="audience-card reveal" style="transition-delay:0.1s">
+          <div class="audience-icon">👩</div>
+          <div>
+            <h4>Women Seeking Better Health</h4>
+            <p>Women who want clarity around weight loss, PCOS, balanced eating, and realistic fitness strategies — without the overwhelm or guilt.</p>
+          </div>
+        </div>
+        <div class="audience-card reveal" style="transition-delay:0.15s">
+          <div class="audience-icon">🚀</div>
+          <div>
+            <h4>Health & Wellness Startups</h4>
+            <p>Early-stage companies building apps, platforms, or products in the health space who need trustworthy, educational content.</p>
+          </div>
+        </div>
+        <div class="audience-card reveal" style="transition-delay:0.2s">
+          <div class="audience-icon">🏋️‍♀️</div>
+          <div>
+            <h4>Fitness Coaches & Educators</h4>
+            <p>Online and in-person professionals who want structured blog posts, e-books, and educational content to support their programs.</p>
+          </div>
+        </div>
+        <div class="audience-card reveal" style="transition-delay:0.25s">
+          <div class="audience-icon">💡</div>
+          <div>
+            <h4>Digital Product Creators</h4>
+            <p>Coaches and creators who sell ebooks, guides, templates, and online resources — and need professionally written long-form content.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section id="values">
+    <div class="inner">
+      <div class="reveal" style="max-width:500px;">
+        <span class="section-label">What I Stand For</span>
+        <h2 class="section-title">The Values That Shape<br>Everything I Write</h2>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-card reveal" style="transition-delay:0.1s">
+          <div class="value-icon">🧬</div>
+          <h3>Evidence Over Trend</h3>
+          <p>Every claim I write is rooted in nutrition science and peer-reviewed research — not whatever's going viral this week.</p>
+        </div>
+        <div class="value-card reveal" style="transition-delay:0.2s">
+          <div class="value-icon">🌙</div>
+          <h3>Culturally Aware</h3>
+          <p>Health content should speak to who you actually are. I write with Islamic values, halal considerations, and cultural context in mind.</p>
+        </div>
+        <div class="value-card reveal" style="transition-delay:0.3s">
+          <div class="value-icon">🎯</div>
+          <h3>Practically Useful</h3>
+          <p>Beautiful content that can't be acted on is wasted. Everything I write is designed to be read, understood, and used.</p>
+        </div>
+        <div class="value-card reveal" style="transition-delay:0.15s">
+          <div class="value-icon">🤝</div>
+          <h3>Honest & Transparent</h3>
+          <p>No overclaiming, no fearmongering. I believe in communicating health information with nuance and genuine responsibility.</p>
+        </div>
+        <div class="value-card reveal" style="transition-delay:0.25s">
+          <div class="value-icon">💪</div>
+          <h3>Empowerment-Focused</h3>
+          <p>My goal isn't to make readers dependent on advice — it's to give them the knowledge to make confident, informed choices.</p>
+        </div>
+        <div class="value-card reveal" style="transition-delay:0.35s">
+          <div class="value-icon">🌱</div>
+          <h3>Progress Over Perfection</h3>
+          <p>Wellness is built through small, consistent habits — not grand overhauls. I write content that celebrates the journey, not just the destination.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS PLACEHOLDER -->
+  <section id="testimonials">
+    <div class="testimonials-inner reveal">
+      <span class="section-label">Kind Words</span>
+      <h2 class="section-title">What Clients Say</h2>
+      <div class="coming-soon-block">
+        <div class="cs-icon">💬</div>
+        <div class="cs-badge">Coming Soon</div>
+        <h3>Client Testimonials on the Way</h3>
+        <p>I'm actively building my client base. Testimonials and reviews will be featured here as they come in. Check back soon!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="cta-band">
+    <div class="cta-inner reveal">
+      <h2>Let's Build Something Great Together</h2>
+      <p>
+        Ready to work with a writer who brings clinical nutrition expertise,
+        cultural awareness, and genuine care to every piece of content?
+      </p>
+      <a href="contact.html" class="btn-white">Work With Me</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Abida<span>.</span></div>
+        <p>Health & Wellness Freelance Writer. Science-backed content for brands that care about impact.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-link" aria-label="LinkedIn">in</a>
+          <a href="#" class="footer-social-link" aria-label="Instagram">📸</a>
+          <a href="#" class="footer-social-link" aria-label="Email">✉</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>SERVICES</h5>
+        <ul>
+          <li><a href="services.html">SEO Blog Writing</a></li>
+          <li><a href="services.html">Website Copywriting</a></li>
+          <li><a href="services.html">Social Media Copy</a></li>
+          <li><a href="services.html">E-book Writing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>EXPLORE</h5>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="shop.html">Digital Products</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>CONTACT</h5>
+        <ul>
+          <li><a href="mailto:hello@abidajohora.com">hello@abidajohora.com</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Abida Johora. All rights reserved.</span>
+      <span style="color:rgba(255,255,255,0.4);">Be Healthy & Productive</span>
+    </div>
+  </footer>
+
+  <script>
+    // LOADER
+    window.addEventListener('load', () => {
+      setTimeout(() => { document.getElementById('loader').classList.add('hidden'); document.body.style.overflow = ''; }, 2200);
+    });
+    document.body.style.overflow = 'hidden';
+
+    // NAV SCROLL
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // HAMBURGER
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    // SCROLL REVEAL
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
